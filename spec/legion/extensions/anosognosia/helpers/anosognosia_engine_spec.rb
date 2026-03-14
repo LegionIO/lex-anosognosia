@@ -100,10 +100,12 @@ RSpec.describe Legion::Extensions::Anosognosia::Helpers::AnosognosiaEngine do
       expect(engine.deficits[deficit.id].acknowledged).to be true
     end
 
-    it 'boosts awareness_score' do
+    it 'boosts awareness_score above its pre-reveal value' do
       register_deficit(engine, domain: :a)
       register_deficit(engine, domain: :b)
       blind = register_deficit(engine, domain: :c)
+      # decay so we have room to boost
+      engine.decay_awareness(amount: 0.5)
       before = engine.awareness_score
       engine.reveal_blind_spot(deficit_id: blind.id)
       expect(engine.awareness_score).to be > before

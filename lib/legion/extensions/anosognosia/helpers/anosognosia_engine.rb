@@ -8,7 +8,7 @@ module Legion
           attr_reader :deficits, :awareness_score
 
           def initialize
-            @deficits       = {} # id => CognitiveDeficit
+            @deficits = {} # id => CognitiveDeficit
             @awareness_score = 1.0
           end
 
@@ -77,14 +77,14 @@ module Legion
             unacknowledged = total - acknowledged
 
             {
-              total_deficits:         total,
-              acknowledged_deficits:  acknowledged,
+              total_deficits:          total,
+              acknowledged_deficits:   acknowledged,
               unacknowledged_deficits: unacknowledged,
-              awareness_score:        @awareness_score.round(10),
-              awareness_gap:          awareness_gap,
-              awareness_label:        awareness_label,
-              blind_spots:            blind_spots.map(&:to_h),
-              deficit_breakdown:      deficit_type_breakdown
+              awareness_score:         @awareness_score.round(10),
+              awareness_gap:           awareness_gap,
+              awareness_label:         awareness_label,
+              blind_spots:             blind_spots.map(&:to_h),
+              deficit_breakdown:       deficit_type_breakdown
             }
           end
 
@@ -96,11 +96,11 @@ module Legion
 
           def to_h
             {
-              deficits:        @deficits.transform_values(&:to_h),
-              awareness_score: @awareness_score.round(10),
-              awareness_gap:   awareness_gap,
-              awareness_label: awareness_label,
-              total_deficits:  @deficits.size,
+              deficits:         @deficits.transform_values(&:to_h),
+              awareness_score:  @awareness_score.round(10),
+              awareness_gap:    awareness_gap,
+              awareness_label:  awareness_label,
+              total_deficits:   @deficits.size,
               blind_spot_count: blind_spots.size
             }
           end
@@ -137,8 +137,8 @@ module Legion
             return unless @deficits.size >= Constants::MAX_DEFICITS
 
             oldest = @deficits.values
-                               .reject(&:acknowledged)
-                               .min_by(&:discovered_at)
+                              .reject(&:acknowledged)
+                              .min_by(&:discovered_at)
             oldest ||= @deficits.values.min_by(&:discovered_at)
             @deficits.delete(oldest.id) if oldest
           end
